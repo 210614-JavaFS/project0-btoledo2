@@ -1,6 +1,12 @@
 package com.revature.Controller;
 
-public class MenuController {
+import java.util.Scanner;
+
+import com.revature.User.CreateUser;
+
+public class MenuController extends CreateUser {
+	
+	public static Scanner scan = new Scanner(System.in);
 	//This will print out user selections
 	public void menuSelection() {
 	    System.out.println("1. Create Account");
@@ -12,6 +18,33 @@ public class MenuController {
 	    System.out.println("7. Display Account Details");
 	    System.out.println("0. to quit: \n"); // exit lets you pick new user (customer,employee, admin roles)
 	    System.out.print("Enter Your Choice : ");
+	}
+	
+	public static CreateUser newUser() {
+		CreateUser user = new CreateUser();
+		boolean passwordMatch = false;
+		String password;
+		String passwordCheck;
+		System.out.println("Please enter UserName:");
+		//userName = scan.nextLine();
+		user.setUserName(scan.nextLine());
+		System.out.println("Please enter Address.");
+		
+		user.setAddress(scan.nextLine());		
+		System.out.println("Please Enter Password:");
+		password = scan.nextLine();
+		
+		while(!passwordMatch) {
+		System.out.println("Please ReEnter Password:");
+		passwordCheck = scan.nextLine();
+		
+		if(password.equals(passwordCheck)) {
+			user.setPassword(password);
+			passwordMatch = true;
+		}
+		else {System.out.println("password did not ");}
+		}	
+		return user;
 	}
 	
 	public void deposit(String user, int balance, int deposit) {
