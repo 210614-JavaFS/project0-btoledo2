@@ -1,15 +1,20 @@
 package com.revature;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+//import java.sql.Connection;
+//import java.sql.SQLException;
 import java.util.Scanner;
 
+import com.revature.controller.EmployeeController;
 import com.revature.controller.MenuController;
-import com.revature.models.Customer;
-import com.revature.util.ConnectionUtil;
+//import com.revature.models.Customer;
+//import com.revature.util.ConnectionUtil;
 
 
 public class Driver extends MenuController {
+	private static EmployeeController employeeController = new EmployeeController();
+	
+	
+	
 	public static Scanner scan = new Scanner(System.in);
 	public static void main(String[] args) {
 	   boolean inBank = true;
@@ -26,8 +31,7 @@ public class Driver extends MenuController {
 		    	// 2 - login
 		    	break;
 		    case "2":
-		    	//TODO
-		    	// login 
+		    	employeeController.empMenu();
 		    	break;	    		
 		    case "3":
 		    	// exit statement 
