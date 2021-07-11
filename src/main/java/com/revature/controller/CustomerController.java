@@ -3,31 +3,32 @@ package com.revature.controller;
 import java.util.List;
 import java.util.Scanner;
 
-import com.revature.models.Employee;
-import com.revature.services.EmployeeService;
+import com.revature.models.Customer;
+import com.revature.services.CustomerService;
 
-public class EmployeeController {
+public class CustomerController {
 
-	private static EmployeeService employeeService = new EmployeeService();
+	private static CustomerService customerService = new CustomerService();
 	private static Scanner scan = new Scanner(System.in);
 	
-	public void empMenu() {
-		boolean inEmpMenu = true;
-		System.out.println("Welcome Employees");
+	public void customerMenu() {
+		boolean inCustomerMenu = true;
+		System.out.println("Welcome Customers");
 
-		while (inEmpMenu) { // switch case
+		while (inCustomerMenu) { // switch case
 			System.out.println("Select an Option");
-			System.out.println("1. See all employees");
+			System.out.println("1. Create User");
 			System.out.println("2. Login");
 			System.out.println("3. Exit");
 			String input = scan.nextLine();
 			if (input.equals("1")) {
-				showEmployees();
+				// TODO
 			} else if (input.equals("2")) {
-				String role = employeeLogin();
-				System.out.println("Employee Role:  " + role);
+				int id = customerLogin();
+				if(id < 0) {System.out.println("Cannot login in");}
+				else {System.out.println("Hello Customer id:" + id);}
 			} else if (input.equals("3")) {
-				inEmpMenu = false;
+				inCustomerMenu = false;
 			} else {
 				System.out.println("Not a valid selection try again.");
 			}
@@ -38,22 +39,14 @@ public class EmployeeController {
 	
 	
 	
-	public void showEmployees() {
-		List<Employee> employees = employeeService.getAllEmployees();
-		
-		for(Employee E:employees) {
-			System.out.println(E);
-		}
-	}
 	
-	
-	public String employeeLogin() {
-		String role = "no";
+	public int customerLogin() {
+		int id= -1;
 		String userName = null;
 		String temp;
 		String tempPswd;
 		String password;
-		List<Employee> employees = employeeService.getAllEmployees();
+		List<Customer> customer = customerService.getAllCustomer();
 		boolean exit = false;
 		boolean exitpswd= false;
 		boolean leave = false;
@@ -62,7 +55,7 @@ public class EmployeeController {
 			while(!exit) {
 				System.out.println("Please enter your Username.");
 				userName = scan.nextLine();
-				for(Employee e :employees) {
+				for(Customer e :customer) {
 					temp = e.getUserName();
 					if(temp.equals(userName)) {exit = true;}
 				}
@@ -80,13 +73,13 @@ public class EmployeeController {
 			while(!exitpswd) {
 				System.out.println("Please enter your Password.");
 				password = scan.nextLine();
-				for(Employee e :employees) {
+				for(Customer e :customer) {
 					temp = e.getUserName();
 					tempPswd = e.getPassword(); 
 					if(tempPswd.equals(password) && temp.equals(userName)) {
 						exitpswd = true;
 						leave = true;
-						role = e.getEmpRole();
+						id = e.getCustomerID();
 					}
 							
 				}
@@ -101,15 +94,19 @@ public class EmployeeController {
 			}
 		}
 		
-		return role;
+		return id;
 	}
 	
-	
-	
-	//TODO: need two menues one for regular and one for admin 
-	// both will have different selections
-	
-	
+	/*TODO LIST:
+	 * 1. Make add new user item
+	 * 2. after login open up another menu for customer
+	 * 3.
+	 * 4.
+	 * 5.
+	 * 
+	 * 
+	 * 
+	 */
 	
 	
 	
