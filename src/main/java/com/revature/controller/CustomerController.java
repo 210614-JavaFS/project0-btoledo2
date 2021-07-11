@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.revature.models.Customer;
+import com.revature.repos.CustomerDAO;
 import com.revature.services.CustomerService;
 
 public class CustomerController {
@@ -22,7 +23,7 @@ public class CustomerController {
 			System.out.println("3. Exit");
 			String input = scan.nextLine();
 			if (input.equals("1")) {
-				// TODO
+				createUser();
 			} else if (input.equals("2")) {
 				int id = customerLogin();
 				if(id < 0) {System.out.println("Cannot login in");}
@@ -96,6 +97,58 @@ public class CustomerController {
 		
 		return id;
 	}
+	
+	public void createUser() {
+		boolean exit = false;
+		String userName = null;
+		boolean notFound = false;
+		String temp;
+		List<Customer> customers = customerService.getAllCustomer();
+		
+		System.out.println("Please enter your First Name");
+		String firstName = scan.nextLine();
+		System.out.println("Please enter you last Name");
+		String lastName = scan.nextLine();
+		System.out.println("Please enter your Username.");
+		while(!exit) {
+			notFound = false;
+			userName = scan.nextLine();
+			for(Customer e :customers) {
+				temp = e.getUserName();
+				if(temp.equals(userName)) {
+					notFound = true;
+					System.out.println("Username exist already try another Username.");}
+			}
+			if(notFound == false) {exit = true;}
+			
+		}
+		System.out.println("Please Enter Password");
+		String password = scan.nextLine();
+		exit = false;
+		while (!exit) {
+			System.out.println("Please ReEnter Password:");
+			temp = scan.nextLine();
+
+			if (password.equals(temp)) {
+				exit = true;
+			} else {
+				System.out.println("password did not match");
+			}
+		}
+		
+		System.out.println("Please enter you Addres.");
+		String address = scan.nextLine();
+		Customer customer = new Customer(firstName,lastName,userName,password,address);
+		if(customerService.addCustome(customer)) {
+			System.out.println("You user account was being add.");
+		}else {
+			System.out.println("USer name is not valid, try again.");
+		}
+		
+	}
+	
+	
+	
 	
 	/*TODO LIST:
 	 * 1. Make add new user item

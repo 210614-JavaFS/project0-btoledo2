@@ -17,4 +17,9 @@ public class CustomerService {
 	public Customer getCustomer(int id) {
 			return customerDao.findCustomer(id);
 	}
+	
+	public boolean addCustome(Customer customer) {		
+		return customerDao.addCustomer(customer);
+	}
+	
 }

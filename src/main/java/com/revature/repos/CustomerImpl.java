@@ -1,6 +1,7 @@
 package com.revature.repos;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -55,18 +56,96 @@ public class CustomerImpl implements CustomerDAO {
 
 	@Override
 	public Customer findCustomer(int id) {
-		// TODO Auto-generated method stub
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "SELECT * FROM customer WHERE customer_id = ?";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, id);	
+			ResultSet result = statement.executeQuery(sql);
+			
+			Customer customer = new Customer();
+			//ResultSets have a cursor similarly to Scanners or other I/O classes. 
+			while(result.next()) {
+				customer.setCustomerID(result.getInt("customer_id"));
+				customer.setFirstName(result.getString("first_name"));
+				customer.setLastName(result.getString("last_name"));
+				customer.setUserName(result.getString("login_name"));
+				customer.setPassword(result.getString("pswd"));
+				customer.setAddress(result.getString("address"));
+				customer.setHasSaving(result.getBoolean("has_saving"));
+				customer.setHasChecking(result.getBoolean("has_checking"));
+				int employeeID= result.getInt("employee_id");
+				if(employeeID!=0) {
+					Employee employee =  employeeDao.findEmployee(employeeID);
+					customer.setEmployee(employee);
+				}
+			}
+			return customer;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
+		
 	}
 
 	@Override
 	public boolean addCustomer(Customer customer) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "INSERT INTO customer(first_name, last_name,login_name,pswd,address, employee_id)\r\n"
+					+ "	VALUES (?, ?,?,?,?, 1);";
+			int index = 0;
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setString(++index, customer.getFirstName());
+			statement.setString(++index, customer.getLastName());
+			statement.setString(++index, customer.getUserName());
+			statement.setString(++index, customer.getPassword());
+			statement.setString(++index, customer.getAddress());
+			
+			statement.execute();
+			
+			return true;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 	
+		return false;
+	}
+    // need to work on below
+	@Override
+	public boolean addSaving(int id) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean updateCustomer(Customer customer) {
+	public boolean addChecking(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateSaving(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateChecking(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void showBalance(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean transferMoney(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}

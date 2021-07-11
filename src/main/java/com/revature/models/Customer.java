@@ -12,18 +12,13 @@ public class Customer {
 	private boolean hasChecking;
 	private Employee employee;
 	
-	public Customer(int customerID, String firstName, String lastName, String userName, String password, String address,
-			boolean hasSaving, boolean hasChecking, Employee employee) {
+	public Customer( String firstName, String lastName, String userName, String password, String address) {
 		super();
-		this.customerID = customerID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
 		this.address = address;
-		this.hasSaving = hasSaving;
-		this.hasChecking = hasChecking;
-		this.employee = employee;
 	}
 
 	public Customer() {
