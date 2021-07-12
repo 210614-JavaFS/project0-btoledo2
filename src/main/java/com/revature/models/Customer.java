@@ -10,20 +10,15 @@ public class Customer {
 	private String address; // going to keep it simple 
 	private boolean hasSaving;
 	private boolean hasChecking;
-	private int employeeID; // links customer to employee many to one 
+	private Employee employee;
 	
-	public Customer(int customerID, String firstName, String lastName, String userName, String password, String address,
-			boolean hasSaving, boolean hasChecking, int employeeID) {
+	public Customer( String firstName, String lastName, String userName, String password, String address) {
 		super();
-		this.customerID = customerID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
 		this.address = address;
-		this.hasSaving = hasSaving;
-		this.hasChecking = hasChecking;
-		this.employeeID = employeeID;
 	}
 
 	public Customer() {
@@ -94,12 +89,12 @@ public class Customer {
 		this.hasChecking = hasChecking;
 	}
 
-	public int getEmployeeID() {
-		return employeeID;
+	public Employee getEmployee() {
+		return employee;
 	}
 
-	public void setEmployeeID(int employeeID) {
-		this.employeeID = employeeID;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 	@Override
@@ -108,7 +103,7 @@ public class Customer {
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + customerID;
-		result = prime * result + employeeID;
+		result = prime * result + ((employee == null) ? 0 : employee.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + (hasChecking ? 1231 : 1237);
 		result = prime * result + (hasSaving ? 1231 : 1237);
@@ -134,7 +129,10 @@ public class Customer {
 			return false;
 		if (customerID != other.customerID)
 			return false;
-		if (employeeID != other.employeeID)
+		if (employee == null) {
+			if (other.employee != null)
+				return false;
+		} else if (!employee.equals(other.employee))
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
@@ -165,15 +163,9 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return "Customer [customerID=" + customerID + ", fistName=" + firstName + ", lastName=" + lastName
-				+ ", userName=" + userName + ", pasword=" + password + ", address=" + address + ", hasSaving="
-				+ hasSaving + ", hasChecking=" + hasChecking + ", employeeID=" + employeeID + "]";
+		return "Customer [customerID=" + customerID + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", userName=" + userName + ", password=" + password + ", address=" + address + ", hasSaving="
+				+ hasSaving + ", hasChecking=" + hasChecking + ", employee=" + employee + "]";
 	}
-	
-	
-	
-	
-	
-	
 	
 }

@@ -9,9 +9,11 @@ public interface EmployeeDAO {
 	
 	public List<Employee> findAll();
 	
+	public Employee findEmployee(int id);
+	
 	public Customer findCustomer(int id);
 	
-	public boolean updateCustomer(Customer customer);
+	//public boolean updateCustomer(Customer customer);
 	
 	
 	/* TODO: Employee                                 
@@ -25,8 +27,8 @@ public interface EmployeeDAO {
 	
 	/* TODO: Admin                                
 	 *  1. login page - will use the same but will differ by employee role so two menus
-	 *  2. 
-	 *  3. 
+	 *  2. delete accounts "delete users" or "delete accounts e.g saving or checking"
+	 *  3. show 
 	 *  4.
 	 *  5.
 	 *
