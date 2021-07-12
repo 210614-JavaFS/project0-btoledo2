@@ -30,5 +30,15 @@ public class CustomerService {
 		return customerDao.createChecking(id);
 	}
 	
+	public boolean customerSavingAccount(int id , double amount) {
+		return customerDao.updateSaving(id, amount);
+	}
+	
+	public boolean customerCheckingAccount(int id, double amount) {
+		return customerDao.updateChecking(id, amount);
+	}
+	
+	
+	
 	
 }

@@ -113,7 +113,7 @@ public class CustomerImpl implements CustomerDAO {
 	
 		return false;
 	}
-    // need testing
+    // works
 	@Override
 	public boolean createSaving(int id) {
 		try(Connection conn = ConnectionUtil.getConnection()){
@@ -133,7 +133,7 @@ public class CustomerImpl implements CustomerDAO {
 	
 		return false;
 	}
-	// need testing
+	// works
 	@Override
 	public boolean createChecking(int id) {
 		try(Connection conn = ConnectionUtil.getConnection()){
@@ -153,17 +153,44 @@ public class CustomerImpl implements CustomerDAO {
 		}
 		return false;
 	}
-
+	// testing
 	@Override
 	public boolean updateSaving(int id, double amount) {
-
-
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "UPDATE saving_account\r\n"
+					+ "SET balance = ? WHERE customer_id = ? ";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setDouble(1, amount);
+			statement.setInt(2, id);
+			statement.execute();
+			
+			return true;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	
 		return false;
 	}
-
+    // testing
 	@Override
 	public boolean updateChecking(int id, double amount) {
-		// TODO Auto-generated method stub
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "UPDATE checking_account\r\n"
+					+ "SET balance = ? WHERE customer_id = ? ";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setDouble(1, amount);
+			statement.setInt(2, id);
+			statement.execute();
+			
+			return true;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	
 		return false;
 	}
 

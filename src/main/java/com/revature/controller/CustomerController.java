@@ -153,7 +153,7 @@ public class CustomerController {
 		}
 		
 	}
-	
+	// needs work
 	public void customerSubMenu(int id){
 		Customer customer = customerService.getCustomer(id);
 		boolean customerOptions = true;
@@ -174,7 +174,7 @@ public class CustomerController {
 			} else if (input.equals("2")) {
 				makeCustomerChecking(id);
 			} else if (input.equals("3")) {
-				
+				depositSubMenu(id);
 			}else if (input.equals("4")) {
 				
 			}else if (input.equals("5")) {
@@ -189,11 +189,9 @@ public class CustomerController {
 			}
 
 		}
-		
-		
-		
-	}
 	
+	}
+	// Done
 	public void makeCustomerSaving(int id) {
 		int temp = 0;
 		List<SavingAccount> savingAccounts = savingService.getAllSaving();
@@ -217,7 +215,7 @@ public class CustomerController {
 		
 		
 	}
-	
+	// Done
 	public void makeCustomerChecking(int id) {
 		int temp = 0;
 		List<CheckingAccount> checkingAccounts = checkingService.getAllChecking();
@@ -240,8 +238,123 @@ public class CustomerController {
 		}
 	}
 	
+	public void depositSubMenu(int id) {
+		boolean inBank = true;
+		while (inBank) { 
+			System.out.println("Select an Option");
+			System.out.println("1. Deposit to Saving Account");
+			System.out.println("2. Deposit to Checking Account");
+			System.out.println("3. Exit");
+			String input = scan.nextLine();
+			if (input.equals("1")) {
+				depositSaving(id);
+			} else if (input.equals("2")) {
+				depositChecking(id);
+			} else if (input.equals("3")) {
+				System.out.println("Exiting Back.");
+				inBank = false;
+			} else {
+				System.out.println("Not a valid selection try again.");
+			}
+
+		}
+	}
 	
+	// testing
+	public void depositSaving(int id) {
+		int temp = 0;
+		double amount = 0;
+		List<SavingAccount> savingAccounts = savingService.getAllSaving();
+		boolean foundAccount = false;
+		boolean hasSaving = false;
+		for(SavingAccount e: savingAccounts) {
+			temp = e.getCustomer().getCustomerID();
+			if(temp == id) {
+				foundAccount = true;
+				hasSaving = e.getCustomer().isHasSaving();
+				amount = e.getBalance();
+				}
+		}
+		if(foundAccount == false) {
+			System.out.println("Saving Account does not exist.");
+		}else if(foundAccount == true && hasSaving == false) {
+			System.out.println("Awaiting on Employee to Approve Account.");
+		}else if(foundAccount == true && hasSaving == true) {
+			boolean exit = false;
+			while(!exit) {
+				
+				System.out.println("How much do you wish to deposit to your Saving Account?");
+				String depositStr = scan.nextLine();
+				double deposit = 0;
+				try {
+					deposit = Double.parseDouble(depositStr);							
+				//customerService.customerSavingAccount(id, deposit);
+				}
+				catch(Exception e) {
+					System.out.println("That is not a valid number type 'y' try again or type 'n' to leave deposit option");
+					depositStr = scan.nextLine();
+					if(depositStr.equals("n")) {exit = true;}
+				}
+				if(deposit > 0 ) {
+					exit = true;
+					amount +=deposit;
+					customerService.customerSavingAccount(id, amount);
+				}else {
+					System.out.println("Cannot deposit 0 or negative number type 'y' try again or type 'n' to leave deposit option.");
+					depositStr = scan.nextLine();
+					if(depositStr.equals("n")) {exit = true;}}
+			}
+		}
+		
+	}
+	// testing
+	public void depositChecking(int id) {
+		int temp = 0;
+		double amount = 0;
+		List<CheckingAccount> checkingAccounts = checkingService.getAllChecking();
+		boolean foundAccount = false;
+		boolean hasChecking = false;
+		for(CheckingAccount e: checkingAccounts) {
+			temp = e.getCustomer().getCustomerID();
+			if(temp == id) {
+				foundAccount = true;
+				hasChecking = e.getCustomer().isHasChecking();
+				amount = e.getBalance();
+				}
+		}
+		if(foundAccount == false) {
+			System.out.println("Checking Account does not exist.");
+		}else if(foundAccount == true && hasChecking == false) {
+			System.out.println("Awaiting on Employee to Approve Account.");
+		}else if(foundAccount == true && hasChecking == true) {
+			boolean exit = false;
+			while(!exit) {
+				
+				System.out.println("How much do you wish to deposit to your Checking Account?");
+				String depositStr = scan.nextLine();
+				double deposit = 0;
+				try {
+					deposit = Double.parseDouble(depositStr);							
+				//customerService.customerSavingAccount(id, deposit);
+				}
+				catch(Exception e) {
+					System.out.println("That is not a valid number type 'y' try again or type 'n' to leave deposit option");
+					depositStr = scan.nextLine();
+					if(depositStr.equals("n")) {exit = true;}
+				}
+				if(deposit > 0 ) {
+					exit = true;
+					amount +=deposit;
+					customerService.customerCheckingAccount(id, amount);
+				}else {
+					System.out.println("Cannot deposit 0 or negative number type 'y' try again or type 'n' to leave deposit option.");
+					depositStr = scan.nextLine();
+					if(depositStr.equals("n")) {exit = true;}}
+			}
+		}
 	
+		
+	}
 	
 	
 	
