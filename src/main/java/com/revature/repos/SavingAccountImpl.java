@@ -1,6 +1,7 @@
 package com.revature.repos;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -38,6 +39,33 @@ public class SavingAccountImpl implements SavingAccountDAO {
 			}			
 			return list;
 			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@Override
+	public SavingAccount findSavingAccount(int id) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "SELECT * From saving_account WHERE customer_id = ?";
+	
+			PreparedStatement statement = conn.prepareStatement(sql);		
+			statement.setInt(1, id);
+			ResultSet result = statement.executeQuery();
+			
+			SavingAccount saving = new SavingAccount();
+			while(result.next()) {
+				
+				saving.setSavingId(result.getInt("saving_id"));
+				saving.setBalance(result.getDouble("balance"));
+				int customerID= result.getInt("customer_id");
+				if(customerID!=0) {
+					Customer customer =  customerDao.findCustomer(customerID);
+					saving.setCustomer(customer);
+				}
+				
+				return saving;
+			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

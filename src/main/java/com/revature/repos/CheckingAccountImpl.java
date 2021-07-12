@@ -1,6 +1,7 @@
 package com.revature.repos;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,7 +28,7 @@ public class CheckingAccountImpl implements CheckingAccountDAO {
 			//ResultSets have a cursor similarly to Scanners or other I/O classes. 
 			while(result.next()) {
 				CheckingAccount checking = new CheckingAccount();
-				checking.setCheckingId(result.getInt("saving_id"));
+				checking.setCheckingId(result.getInt("checking_id"));
 				checking.setBalance(result.getDouble("balance"));
 				int customerID= result.getInt("customer_id");
 				if(customerID!=0) {
@@ -38,6 +39,33 @@ public class CheckingAccountImpl implements CheckingAccountDAO {
 			}			
 			return list;
 			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@Override
+	public CheckingAccount findCheckingAccount(int id) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "SELECT * From checking_account WHERE customer_id = ?";
+	
+			PreparedStatement statement = conn.prepareStatement(sql);		
+			statement.setInt(1, id);
+			ResultSet result = statement.executeQuery();
+			
+			CheckingAccount checking = new CheckingAccount();
+			while(result.next()) {
+				
+				checking.setCheckingId(result.getInt("checking_id"));
+				checking.setBalance(result.getDouble("balance"));
+				int customerID= result.getInt("customer_id");
+				if(customerID!=0) {
+					Customer customer =  customerDao.findCustomer(customerID);
+					checking.setCustomer(customer);
+				}
+				
+				return checking;
+			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

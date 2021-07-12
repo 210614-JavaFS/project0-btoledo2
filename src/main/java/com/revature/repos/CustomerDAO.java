@@ -12,13 +12,13 @@ public interface CustomerDAO {
 
 	public boolean addCustomer(Customer customer); // make sure it works first
 	
-	public boolean addSaving(int id);
+	public boolean createSaving(int id);
 	
-	public boolean addChecking(int id);
+	public boolean createChecking(int id);
 	
-	public boolean updateSaving(int id);
+	public boolean updateSaving(int id, double amount);
 	
-	public boolean updateChecking(int id);
+	public boolean updateChecking(int id, double amount);
 	
 	public void showBalance(int id);
 	

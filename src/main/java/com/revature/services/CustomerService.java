@@ -21,5 +21,14 @@ public class CustomerService {
 	public boolean addCustome(Customer customer) {		
 		return customerDao.addCustomer(customer);
 	}
+
+	public boolean addSavingAccount(int id) {
+		return customerDao.createSaving(id);
+	}
+	
+	public boolean addCheckingAccount(int id) {
+		return customerDao.createChecking(id);
+	}
+	
 	
 }

@@ -15,7 +15,7 @@ import com.revature.util.ConnectionUtil;
 public class CustomerImpl implements CustomerDAO {
 	
 	private static EmployeeDAO employeeDao = new EmployeeImpl();
-
+	// works
 	@Override
 	public List<Customer> findAll() {
 		try(Connection conn = ConnectionUtil.getConnection()){
@@ -53,7 +53,7 @@ public class CustomerImpl implements CustomerDAO {
 		}
 		return null;
 	}
-
+	// works 
 	@Override
 	public Customer findCustomer(int id) {
 		try(Connection conn = ConnectionUtil.getConnection()){
@@ -61,7 +61,7 @@ public class CustomerImpl implements CustomerDAO {
 			
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, id);	
-			ResultSet result = statement.executeQuery(sql);
+			ResultSet result = statement.executeQuery();
 			
 			Customer customer = new Customer();
 			//ResultSets have a cursor similarly to Scanners or other I/O classes. 
@@ -88,7 +88,7 @@ public class CustomerImpl implements CustomerDAO {
 		return null;
 		
 	}
-
+	// works
 	@Override
 	public boolean addCustomer(Customer customer) {
 		try(Connection conn = ConnectionUtil.getConnection()){
@@ -113,27 +113,56 @@ public class CustomerImpl implements CustomerDAO {
 	
 		return false;
 	}
-    // need to work on below
+    // need testing
 	@Override
-	public boolean addSaving(int id) {
-		// TODO Auto-generated method stub
+	public boolean createSaving(int id) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "INSERT INTO saving_account(balance, customer_id)\r\n"
+					+ " SELECT 0, ? FROM customer WHERE customer_id = ?;";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setDouble(1, id);
+			statement.setInt(2, id);
+			statement.execute();
+			
+			return true;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	
+		return false;
+	}
+	// need testing
+	@Override
+	public boolean createChecking(int id) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "INSERT INTO checking_account(balance, customer_id)\r\n"
+					+ " SELECT 0, ? FROM customer WHERE customer_id = ?;";
+			int index = 0;
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setDouble(++index, id);
+			statement.setInt(++index, id);
+			statement.execute();
+			
+			return true;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
-	public boolean addChecking(int id) {
-		// TODO Auto-generated method stub
+	public boolean updateSaving(int id, double amount) {
+
+
 		return false;
 	}
 
 	@Override
-	public boolean updateSaving(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updateChecking(int id) {
+	public boolean updateChecking(int id, double amount) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -149,5 +178,7 @@ public class CustomerImpl implements CustomerDAO {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
 
 }

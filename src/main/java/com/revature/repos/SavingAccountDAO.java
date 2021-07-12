@@ -8,8 +8,5 @@ public interface SavingAccountDAO {
 	
 	public List<SavingAccount> findAll();
 	
-	
-	
-	
-
+	public SavingAccount findSavingAccount(int id);
 }

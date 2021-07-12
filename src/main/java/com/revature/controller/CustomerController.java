@@ -3,13 +3,19 @@ package com.revature.controller;
 import java.util.List;
 import java.util.Scanner;
 
+import com.revature.models.CheckingAccount;
 import com.revature.models.Customer;
+import com.revature.models.SavingAccount;
 import com.revature.repos.CustomerDAO;
+import com.revature.services.CheckingAccountService;
 import com.revature.services.CustomerService;
+import com.revature.services.SavingAccountService;
 
 public class CustomerController {
 
 	private static CustomerService customerService = new CustomerService();
+	private static SavingAccountService savingService = new SavingAccountService();
+	private static CheckingAccountService checkingService = new CheckingAccountService();
 	private static Scanner scan = new Scanner(System.in);
 	
 	public void customerMenu() {
@@ -27,7 +33,8 @@ public class CustomerController {
 			} else if (input.equals("2")) {
 				int id = customerLogin();
 				if(id < 0) {System.out.println("Cannot login in");}
-				else {System.out.println("Hello Customer id:" + id);}
+				else {System.out.println("Here");
+					customerSubMenu(id);}
 			} else if (input.equals("3")) {
 				inCustomerMenu = false;
 			} else {
@@ -40,7 +47,7 @@ public class CustomerController {
 	
 	
 	
-	
+	// Done
 	public int customerLogin() {
 		int id= -1;
 		String userName = null;
@@ -97,7 +104,7 @@ public class CustomerController {
 		
 		return id;
 	}
-	
+	// Done but maybe need to change later on 
 	public void createUser() {
 		boolean exit = false;
 		String userName = null;
@@ -146,6 +153,95 @@ public class CustomerController {
 		}
 		
 	}
+	
+	public void customerSubMenu(int id){
+		Customer customer = customerService.getCustomer(id);
+		boolean customerOptions = true;
+		
+		while (customerOptions) { // switch case
+			System.out.println( "Hello ,"+ customer.getFirstName());
+			System.out.println("Select an Option");
+			System.out.println("1. Create Saving Account");
+			System.out.println("2. Create Checking Account");
+			System.out.println("3. Deposit"); // sub menu
+			System.out.println("4. witdraw"); // sub menu
+			System.out.println("5. Transfer"); // sub menu
+			System.out.println("6. See Acount balance");
+			System.out.println("7. Exit");
+			String input = scan.nextLine();
+			if (input.equals("1")) {
+				makeCustomerSaving(id);
+			} else if (input.equals("2")) {
+				makeCustomerChecking(id);
+			} else if (input.equals("3")) {
+				
+			}else if (input.equals("4")) {
+				
+			}else if (input.equals("5")) {
+				
+			}else if (input.equals("6")) {
+				
+			} else if (input.equals("7")) {
+				customerOptions = false;
+			}
+			else {
+				System.out.println("Not a valid selection try again.");
+			}
+
+		}
+		
+		
+		
+	}
+	
+	public void makeCustomerSaving(int id) {
+		int temp = 0;
+		List<SavingAccount> savingAccounts = savingService.getAllSaving();
+		boolean foundAccount = false;
+		boolean hasSaving = false;
+		for(SavingAccount e: savingAccounts) {
+			temp = e.getCustomer().getCustomerID();
+			if(temp == id) {
+				foundAccount = true;
+				hasSaving = e.getCustomer().isHasSaving();
+				}
+		}
+		if(foundAccount == false) {
+			System.out.println("Saving Account Create wait on Employee Approve.");
+			customerService.addSavingAccount(id);
+		}else if(foundAccount == true && hasSaving == false) {
+			System.out.println("Awaiting on Employee to Approve Account.");
+		}else if(foundAccount == true && hasSaving == true) {
+			System.out.println("You have access to your Saving Account.");
+		}
+		
+		
+	}
+	
+	public void makeCustomerChecking(int id) {
+		int temp = 0;
+		List<CheckingAccount> checkingAccounts = checkingService.getAllChecking();
+		boolean foundAccount = false;
+		boolean hasChecking = false;
+		for(CheckingAccount e: checkingAccounts) {
+			temp = e.getCustomer().getCustomerID();
+			if(temp == id) {
+				foundAccount = true;
+				hasChecking = e.getCustomer().isHasChecking();
+				}
+		}
+		if(foundAccount == false) {
+			System.out.println("Checking Account Create wait on Employee Approve.");
+			customerService.addCheckingAccount(id);
+		}else if(foundAccount == true && hasChecking == false) {
+			System.out.println("Awaiting on Employee to Approve Account.");
+		}else if(foundAccount == true && hasChecking == true) {
+			System.out.println("You have access to your Checking Account.");
+		}
+	}
+	
+	
+	
 	
 	
 	

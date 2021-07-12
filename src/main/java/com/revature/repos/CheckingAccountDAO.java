@@ -6,4 +6,6 @@ import com.revature.models.CheckingAccount;
 
 public interface CheckingAccountDAO {
 	public List<CheckingAccount> findAll();
+	
+	public CheckingAccount findCheckingAccount(int id);
 }
