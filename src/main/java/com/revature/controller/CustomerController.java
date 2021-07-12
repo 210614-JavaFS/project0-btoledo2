@@ -163,10 +163,10 @@ public class CustomerController {
 			System.out.println("Select an Option");
 			System.out.println("1. Create Saving Account");
 			System.out.println("2. Create Checking Account");
-			System.out.println("3. Deposit"); // sub menu
-			System.out.println("4. witdraw"); // sub menu
-			System.out.println("5. Transfer"); // sub menu
-			System.out.println("6. See Acount balance");
+			System.out.println("3. Deposit"); // sub menu - Done
+			System.out.println("4. witdraw"); // sub menu - Done
+			System.out.println("5. Transfer"); // sub menu - work in progress
+			System.out.println("6. See Acount balance"); // should be easy but need to test it out
 			System.out.println("7. Exit");
 			String input = scan.nextLine();
 			if (input.equals("1")) {
@@ -176,7 +176,7 @@ public class CustomerController {
 			} else if (input.equals("3")) {
 				depositSubMenu(id);
 			}else if (input.equals("4")) {
-				
+				withdrawSubMenu(id);
 			}else if (input.equals("5")) {
 				
 			}else if (input.equals("6")) {
@@ -205,10 +205,10 @@ public class CustomerController {
 				}
 		}
 		if(foundAccount == false) {
-			System.out.println("Saving Account Create wait on Employee Approve.");
+			System.out.println("Saving Account Create waiting on Employee Approve.");
 			customerService.addSavingAccount(id);
 		}else if(foundAccount == true && hasSaving == false) {
-			System.out.println("Awaiting on Employee to Approve Account.");
+			System.out.println("Waiting on Employee to Approve Account.");
 		}else if(foundAccount == true && hasSaving == true) {
 			System.out.println("You have access to your Saving Account.");
 		}
@@ -229,15 +229,15 @@ public class CustomerController {
 				}
 		}
 		if(foundAccount == false) {
-			System.out.println("Checking Account Create wait on Employee Approve.");
+			System.out.println("Checking Account Create waiting on Employee Approve.");
 			customerService.addCheckingAccount(id);
 		}else if(foundAccount == true && hasChecking == false) {
-			System.out.println("Awaiting on Employee to Approve Account.");
+			System.out.println("Waiting on Employee to Approve Account.");
 		}else if(foundAccount == true && hasChecking == true) {
 			System.out.println("You have access to your Checking Account.");
 		}
 	}
-	
+	// Done
 	public void depositSubMenu(int id) {
 		boolean inBank = true;
 		while (inBank) { 
@@ -259,8 +259,7 @@ public class CustomerController {
 
 		}
 	}
-	
-	// testing
+	// Done
 	public void depositSaving(int id) {
 		int temp = 0;
 		double amount = 0;
@@ -284,6 +283,7 @@ public class CustomerController {
 			while(!exit) {
 				
 				System.out.println("How much do you wish to deposit to your Saving Account?");
+				System.out.println("Current Saving Account Balance: "+ amount);
 				String depositStr = scan.nextLine();
 				double deposit = 0;
 				try {
@@ -291,23 +291,25 @@ public class CustomerController {
 				//customerService.customerSavingAccount(id, deposit);
 				}
 				catch(Exception e) {
-					System.out.println("That is not a valid number type 'y' try again or type 'n' to leave deposit option");
+					System.out.println("That is not a valid number: type 'y' try again or type 'n' to leave deposit option");
 					depositStr = scan.nextLine();
 					if(depositStr.equals("n")) {exit = true;}
+					continue;
 				}
 				if(deposit > 0 ) {
 					exit = true;
 					amount +=deposit;
+					System.out.println("New Balance of Saving Account: " + amount);
 					customerService.customerSavingAccount(id, amount);
-				}else {
-					System.out.println("Cannot deposit 0 or negative number type 'y' try again or type 'n' to leave deposit option.");
+				}else if (deposit <= 0){
+					System.out.println("Cannot deposit 0 or negative number: type 'y' try again or type 'n' to leave deposit option.");
 					depositStr = scan.nextLine();
 					if(depositStr.equals("n")) {exit = true;}}
 			}
 		}
 		
 	}
-	// testing
+	// Done
 	public void depositChecking(int id) {
 		int temp = 0;
 		double amount = 0;
@@ -331,6 +333,7 @@ public class CustomerController {
 			while(!exit) {
 				
 				System.out.println("How much do you wish to deposit to your Checking Account?");
+				System.out.println("Current Checking Account Balance: "+ amount);
 				String depositStr = scan.nextLine();
 				double deposit = 0;
 				try {
@@ -338,16 +341,18 @@ public class CustomerController {
 				//customerService.customerSavingAccount(id, deposit);
 				}
 				catch(Exception e) {
-					System.out.println("That is not a valid number type 'y' try again or type 'n' to leave deposit option");
+					System.out.println("That is not a valid number: type 'y' try again or type 'n' to leave deposit option");
 					depositStr = scan.nextLine();
 					if(depositStr.equals("n")) {exit = true;}
+					continue;
 				}
 				if(deposit > 0 ) {
 					exit = true;
 					amount +=deposit;
+					System.out.println("New Balance of Checking Account: " + amount);
 					customerService.customerCheckingAccount(id, amount);
-				}else {
-					System.out.println("Cannot deposit 0 or negative number type 'y' try again or type 'n' to leave deposit option.");
+				}else if(deposit <= 0) {
+					System.out.println("Cannot deposit 0 or negative number: type 'y' try again or type 'n' to leave deposit option.");
 					depositStr = scan.nextLine();
 					if(depositStr.equals("n")) {exit = true;}}
 			}
@@ -355,14 +360,132 @@ public class CustomerController {
 	
 		
 	}
-	
-	
-	
+	// Done
+	public void withdrawSubMenu(int id) {
+		boolean inBank = true;
+		while (inBank) { 
+			System.out.println("Select an Option");
+			System.out.println("1. Withdraw from Saving Account");
+			System.out.println("2. Withdraw from Checking Account");
+			System.out.println("3. Exit");
+			String input = scan.nextLine();
+			if (input.equals("1")) {
+				withdrawSaving(id);
+			} else if (input.equals("2")) {
+				withdrawChecking(id);
+			} else if (input.equals("3")) {
+				System.out.println("Exiting Back.");
+				inBank = false;
+			} else {
+				System.out.println("Not a valid selection try again.");
+			}
+
+		}
+	}
+	// Done
+	public void withdrawSaving(int id) {
+		int temp = 0;
+		double amount = 0;
+		List<SavingAccount> savingAccounts = savingService.getAllSaving();
+		boolean foundAccount = false;
+		boolean hasSaving = false;
+		for(SavingAccount e: savingAccounts) {
+			temp = e.getCustomer().getCustomerID();
+			if(temp == id) {
+				foundAccount = true;
+				hasSaving = e.getCustomer().isHasSaving();
+				amount = e.getBalance();
+				}
+		}
+		if(foundAccount == false) {
+			System.out.println("Saving Account does not exist.");
+		}else if(foundAccount == true && hasSaving == false) {
+			System.out.println("Awaiting on Employee to Approve Account.");
+		}else if(foundAccount == true && hasSaving == true) {
+			boolean exit = false;
+			while(!exit) {
+				
+				System.out.println("How much do you wish to withdraw from your Saving Account?");
+				System.out.println("Current Saving Account Balance: "+ amount);
+				String withdrawStr = scan.nextLine();
+				double withdraw = 0;
+				try {
+					withdraw = Double.parseDouble(withdrawStr);							
+				//customerService.customerSavingAccount(id, deposit);
+				}
+				catch(Exception e) {
+					System.out.println("That is not a valid number: type 'y' try again or type 'n' to leave deposit option");
+					withdrawStr = scan.nextLine();
+					if(withdrawStr.equals("n")) {exit = true;}
+					continue;
+				}
+				if(withdraw > 0 && withdraw <= amount) {
+					exit = true;
+					amount -= withdraw;
+					System.out.println("New Balance of Saving Account: " + amount);
+					customerService.customerSavingAccount(id, amount);
+				}else if(withdraw < 0 || withdraw > amount) {
+					System.out.println("Cannot withdraw more than your balance or "
+							+ "negative numbers: type 'y' try again or type 'n' to leave deposit option.");
+					withdrawStr = scan.nextLine();
+					if(withdrawStr.equals("n")) {exit = true;}}
+			}
+		}
+	}
+	// Done
+	public void withdrawChecking(int id) {
+		int temp = 0;
+		double amount = 0;
+		List<CheckingAccount> checkingAccounts = checkingService.getAllChecking();
+		boolean foundAccount = false;
+		boolean hasChecking = false;
+		for(CheckingAccount e: checkingAccounts) {
+			temp = e.getCustomer().getCustomerID();
+			if(temp == id) {
+				foundAccount = true;
+				hasChecking = e.getCustomer().isHasChecking();
+				amount = e.getBalance();
+				}
+		}
+		if(foundAccount == false) {
+			System.out.println("Checking Account does not exist.");
+		}else if(foundAccount == true && hasChecking == false) {
+			System.out.println("Awaiting on Employee to Approve Account.");
+		}else if(foundAccount == true && hasChecking == true) {
+			boolean exit = false;
+			while(!exit) {
+				
+				System.out.println("How much do you wish to withdraw from your Checking Account?");
+				System.out.println("Current Checking Account Balance: "+ amount);
+				String withdrawStr = scan.nextLine();
+				double withdraw = 0;
+				try {
+					withdraw = Double.parseDouble(withdrawStr);							
+				//customerService.customerSavingAccount(id, deposit);
+				}
+				catch(Exception e) {
+					System.out.println("That is not a valid number: type 'y' try again or type 'n' to leave deposit option");
+					withdrawStr = scan.nextLine();
+					if(withdrawStr.equals("n")) {exit = true;}
+					continue;
+				}
+				if(withdraw > 0 && withdraw <= amount ) {
+					exit = true;
+					amount -=withdraw;
+					System.out.println("New Balance of Checking Account: " + amount);
+					customerService.customerCheckingAccount(id, amount);
+				}else if (withdraw < 0 || withdraw > amount){
+					System.out.println("Cannot deposit 0 or negative number: type 'y' try again or type 'n' to leave deposit option.");
+					withdrawStr = scan.nextLine();
+					if(withdrawStr.equals("n")) {exit = true;}}
+			}
+		}		
+	}
 	
 	/*TODO LIST:
-	 * 1. Make add new user item
-	 * 2. after login open up another menu for customer
-	 * 3.
+	 * 1. Transfer subMenu
+	 * 2. Transfer From saving to checking and vice versa like withdraw but with extra steps
+	 * 3. show balances
 	 * 4.
 	 * 5.
 	 * 
