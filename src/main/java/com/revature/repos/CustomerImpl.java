@@ -225,12 +225,4 @@ public class CustomerImpl implements CustomerDAO {
 		
 	}
 
-	@Override
-	public boolean transferMoney(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-
 }

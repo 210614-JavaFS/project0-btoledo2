@@ -22,7 +22,7 @@ public interface CustomerDAO {
 	
 	public boolean showBalance(int id);
 	
-	public boolean transferMoney(int id);
+	//public boolean transferMoney(int id);
 	
 	
 	/*TODO LIST:
