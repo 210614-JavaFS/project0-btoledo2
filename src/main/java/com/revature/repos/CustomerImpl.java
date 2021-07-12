@@ -195,8 +195,33 @@ public class CustomerImpl implements CustomerDAO {
 	}
 
 	@Override
-	public void showBalance(int id) {
-		// TODO Auto-generated method stub
+	public boolean showBalance(int id) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "SELECT customer.first_name  , customer.last_name , saving_account.balance , checking_account.balance\r\n "
+					+ "FROM customer LEFT JOIN saving_account ON saving_account.customer_id = customer.customer_id \r\n"
+					+ "LEFT JOIN checking_account ON checking_account.customer_id = customer.customer_id WHERE customer.customer_id = ?;";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, id);	
+			ResultSet result = statement.executeQuery();
+			String show = "";
+			//ResultSets have a cursor similarly to Scanners or other I/O classes. 
+			
+			while(result.next()) {
+				show += result.getString(1);
+				show += " ";
+				show += result.getString(2);
+				show += " Saving Account: ";
+				show += result.getString(3);
+				show += " Checking Account: ";
+				show += result.getString(4);
+			}
+			System.out.println(show);
+			return true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 		
 	}
 

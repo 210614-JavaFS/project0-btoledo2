@@ -166,7 +166,7 @@ public class CustomerController {
 			System.out.println("3. Deposit"); // sub menu - Done
 			System.out.println("4. witdraw"); // sub menu - Done
 			System.out.println("5. Transfer"); // sub menu - work in progress
-			System.out.println("6. See Acount balance"); // should be easy but need to test it out
+			System.out.println("6. See Account balance"); // should be easy but need to test it out
 			System.out.println("7. Exit");
 			String input = scan.nextLine();
 			if (input.equals("1")) {
@@ -178,9 +178,11 @@ public class CustomerController {
 			}else if (input.equals("4")) {
 				withdrawSubMenu(id);
 			}else if (input.equals("5")) {
-				
+				if(customer.isHasChecking() && customer.isHasChecking()) {
+					transferSubMenu(id);
+				} else {System.out.println("You dont have access to this option right now.");}
 			}else if (input.equals("6")) {
-				
+					showBalance(id);
 			} else if (input.equals("7")) {
 				customerOptions = false;
 			}
@@ -424,9 +426,9 @@ public class CustomerController {
 					amount -= withdraw;
 					System.out.println("New Balance of Saving Account: " + amount);
 					customerService.customerSavingAccount(id, amount);
-				}else if(withdraw < 0 || withdraw > amount) {
+				}else if(withdraw <= 0 || withdraw > amount) {
 					System.out.println("Cannot withdraw more than your balance or "
-							+ "negative numbers: type 'y' try again or type 'n' to leave deposit option.");
+							+ "negative numbers: type 'y' try again or type 'n' to leave withdraw option.");
 					withdrawStr = scan.nextLine();
 					if(withdrawStr.equals("n")) {exit = true;}}
 			}
@@ -474,14 +476,165 @@ public class CustomerController {
 					amount -=withdraw;
 					System.out.println("New Balance of Checking Account: " + amount);
 					customerService.customerCheckingAccount(id, amount);
-				}else if (withdraw < 0 || withdraw > amount){
-					System.out.println("Cannot deposit 0 or negative number: type 'y' try again or type 'n' to leave deposit option.");
+				}else if (withdraw <= 0 || withdraw > amount){
+					System.out.println("Cannot withdraw more than your balance or "
+							+ "negative numbers: type 'y' try again or type 'n' to leave withdraw option.");
 					withdrawStr = scan.nextLine();
 					if(withdrawStr.equals("n")) {exit = true;}}
-			}
+			}// end of while loop
 		}		
 	}
+	// Done
+	public void transferSubMenu(int id) {
+		boolean inBank = true;
+		while (inBank) { 
+			System.out.println("Select an Option");
+			System.out.println("1. Transfer from Saving to Checking Account.");
+			System.out.println("2. Transfer From Checking to Saving Account.");
+			System.out.println("3. Exit");
+			String input = scan.nextLine();
+			if (input.equals("1")) {
+				transferSAToCA(id);
+			} else if (input.equals("2")) {
+				transferCAToSA(id);
+			} else if (input.equals("3")) {
+				System.out.println("Exiting Back.");
+				inBank = false;
+			} else {
+				System.out.println("Not a valid selection try again.");
+			}
+				
+		}
+	}
 	
+	public void transferSAToCA(int id) {
+		int temp = 0;
+		double amountSaving = 0;
+		double amountChecking = 0;
+		List<CheckingAccount> checkingAccounts = checkingService.getAllChecking();
+		List<SavingAccount> savingAccounts = savingService.getAllSaving();
+		boolean savingFound = false;
+		boolean checkingFound = false;
+		for(SavingAccount e: savingAccounts) {
+			temp = e.getCustomer().getCustomerID();
+			if(temp == id) {
+				savingFound = true;
+				amountSaving = e.getBalance();
+				}
+		}
+		for(CheckingAccount e: checkingAccounts) {
+			temp = e.getCustomer().getCustomerID();
+			if(temp == id) {
+				checkingFound = true;
+				amountChecking = e.getBalance();
+				}
+		}
+		if (savingFound == true && checkingFound == true) {
+			boolean exit = false;
+			while(!exit) {
+				
+				System.out.println("How much do you wish to transfer from your Saving Account to your Checking Account?");
+				System.out.println("Current Checking Account Balance: " + amountChecking);
+				System.out.println("Current Saving Account Balance: " + amountSaving);
+				String withdrawStr = scan.nextLine();
+				double withdraw = 0;
+				try {
+					withdraw = Double.parseDouble(withdrawStr);							
+				//customerService.customerSavingAccount(id, deposit);
+				}
+				catch(Exception e) {
+					System.out.println("That is not a valid number: type 'y' try again or type 'n' to leave deposit option");
+					withdrawStr = scan.nextLine();
+					if(withdrawStr.equals("n")) {exit = true;}
+					continue;
+				}
+				if(withdraw > 0 && withdraw <= amountSaving ) {
+					exit = true;
+					amountChecking +=withdraw;
+					amountSaving -= withdraw;
+					System.out.println("New Checking Account Balance: " + amountChecking);
+					System.out.println("New Saving Account Balance: " + amountSaving);
+					customerService.customerSavingAccount(id, amountSaving);
+					customerService.customerCheckingAccount(id, amountChecking);
+				}else if (withdraw <= 0 || withdraw > amountChecking){
+					System.out.println("Cannot transfer more than your balance or "
+							+ "negative numbers: type 'y' try again or type 'n' to leave transfer option.");
+					withdrawStr = scan.nextLine();
+					if(withdrawStr.equals("n")) {exit = true;}}
+			
+			}// end of while loop 
+		
+		}else {System.out.println("You dont have Access wait for Employee.");}
+		
+		
+	}
+	
+	public void transferCAToSA(int id) {
+		int temp = 0;
+		double amountSaving = 0;
+		double amountChecking = 0;
+		List<CheckingAccount> checkingAccounts = checkingService.getAllChecking();
+		List<SavingAccount> savingAccounts = savingService.getAllSaving();
+		boolean savingFound = false;
+		boolean checkingFound = false;
+		
+		for(SavingAccount e: savingAccounts) {
+			temp = e.getCustomer().getCustomerID();
+			if(temp == id) {
+				savingFound = true;
+				amountSaving = e.getBalance();
+				}
+		}
+		for(CheckingAccount e: checkingAccounts) {
+			temp = e.getCustomer().getCustomerID();
+			if(temp == id) {
+				checkingFound = true;
+				amountChecking = e.getBalance();
+				}
+		}
+		if (savingFound == true && checkingFound == true) {
+			boolean exit = false;
+			while(!exit) {
+				
+				System.out.println("How much do you wish to transfer from your Checking Account to your Saving Account?");
+				System.out.println("Current Checking Account Balance: " + amountChecking);
+				System.out.println("Current Saving Account Balance: " + amountSaving);
+				String withdrawStr = scan.nextLine();
+				double withdraw = 0;
+				try {
+					withdraw = Double.parseDouble(withdrawStr);							
+				//customerService.customerSavingAccount(id, deposit);
+				}
+				catch(Exception e) {
+					System.out.println("That is not a valid number: type 'y' try again or type 'n' to leave deposit option");
+					withdrawStr = scan.nextLine();
+					if(withdrawStr.equals("n")) {exit = true;}
+					continue;
+				}
+				if(withdraw > 0 && withdraw <= amountChecking ) {
+					exit = true;
+					amountChecking -=withdraw;
+					amountSaving += withdraw;
+					System.out.println("New Checking Account Balance: " + amountChecking);
+					System.out.println("New Saving Account Balance: " + amountSaving);
+					customerService.customerSavingAccount(id, amountSaving);
+					customerService.customerCheckingAccount(id, amountChecking);
+				}else if (withdraw <= 0 || withdraw > amountChecking){
+					System.out.println("Cannot transfer more than your balance or "
+							+ "negative numbers: type 'y' try again or type 'n' to leave transfer option.");
+					withdrawStr = scan.nextLine();
+					if(withdrawStr.equals("n")) {exit = true;}}
+			
+			}// end of while loop 
+		
+		}else {System.out.println("You dont have Access wait for Employee.");}
+		
+		
+	};
+	
+	public void showBalance(int id) {
+		customerService.showBalance(id);		
+	}
 	/*TODO LIST:
 	 * 1. Transfer subMenu
 	 * 2. Transfer From saving to checking and vice versa like withdraw but with extra steps
