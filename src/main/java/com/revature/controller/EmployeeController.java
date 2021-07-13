@@ -264,7 +264,7 @@ public class EmployeeController {
 			} else if (input.equals("3")) {
 				//depositChecking(id);
 			} else if (input.equals("4")) {
-				//depositChecking(id);
+				removeAccount();
 			}else if (input.equals("5")) {
 				System.out.println("Exiting Back.");
 				inBank = false;
@@ -310,7 +310,8 @@ public class EmployeeController {
 			}	
 		}
 		if(userID == true) {
-			
+			System.out.println("Admin has remove the user from the bank.");
+			employeeService.delete(id);
 		}
 		
 		

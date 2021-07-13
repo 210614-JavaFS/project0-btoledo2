@@ -47,6 +47,9 @@ public class EmployeeService {
 		return employeeDao.denyCheckingAccount(id);
 	}
 	
+	public boolean delete(int id){
+		return employeeDao.removeUSer(id);
+	}
 	
 	
 	
