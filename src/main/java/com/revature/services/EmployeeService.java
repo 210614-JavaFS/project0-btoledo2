@@ -19,5 +19,35 @@ public class EmployeeService {
 		
 	}
 	
+	public boolean showAccountBalance() {
+		return employeeDao.showAccountBalance();
+	}
+	
+	public boolean showPersonalInfo() {
+		return employeeDao.showPersonalInfo();
+	} 
+	
+	public boolean customerAccountStatus() {
+		return employeeDao.showAccountInfo();
+	}
+	
+	public boolean approveSaving(int id) {
+		return employeeDao.approveSavingAccount(id);
+	}
+	
+	public boolean approveChecking(int id) {
+		return employeeDao.approveCheckingAccount(id);
+	}
+	
+	public boolean denySaving(int id) {
+		return employeeDao.denySavingAccount(id);
+	}
+	
+	public boolean denyChecking(int id) {
+		return employeeDao.denyCheckingAccount(id);
+	}
+	
+	
+	
 	
 }

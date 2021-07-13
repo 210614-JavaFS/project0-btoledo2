@@ -158,15 +158,15 @@ public class CustomerController {
 		Customer customer = customerService.getCustomer(id);
 		boolean customerOptions = true;
 		
-		while (customerOptions) { // switch case
+		while (customerOptions) { // Done
 			System.out.println( "Hello ,"+ customer.getFirstName());
 			System.out.println("Select an Option");
 			System.out.println("1. Create Saving Account");
 			System.out.println("2. Create Checking Account");
 			System.out.println("3. Deposit"); // sub menu - Done
 			System.out.println("4. witdraw"); // sub menu - Done
-			System.out.println("5. Transfer"); // sub menu - work in progress
-			System.out.println("6. See Account balance"); // should be easy but need to test it out
+			System.out.println("5. Transfer"); // sub menu - Done
+			System.out.println("6. See Account balance"); // Done but can make look pretty later on 
 			System.out.println("7. Exit");
 			String input = scan.nextLine();
 			if (input.equals("1")) {

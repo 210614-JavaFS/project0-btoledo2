@@ -206,14 +206,14 @@ public class CustomerImpl implements CustomerDAO {
 			ResultSet result = statement.executeQuery();
 			String show = "";
 			//ResultSets have a cursor similarly to Scanners or other I/O classes. 
-			
+			System.out.println("First Name - Last Name  - Saving Balance -  Checking Balance");
 			while(result.next()) {
 				show += result.getString(1);
-				show += " ";
+				show += "      ";
 				show += result.getString(2);
-				show += " Saving Account: ";
+				show += "       ";
 				show += result.getString(3);
-				show += " Checking Account: ";
+				show += "               ";
 				show += result.getString(4);
 			}
 			System.out.println(show);
@@ -224,5 +224,6 @@ public class CustomerImpl implements CustomerDAO {
 		return false;
 		
 	}
+
 
 }
