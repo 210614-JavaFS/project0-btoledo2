@@ -3,6 +3,10 @@ package com.revature.controller;
 import java.util.List;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.revature.Driver;
 import com.revature.models.CheckingAccount;
 import com.revature.models.Customer;
 import com.revature.models.SavingAccount;
@@ -13,6 +17,7 @@ import com.revature.services.SavingAccountService;
 
 public class CustomerController {
 
+	private static Logger log = (Logger) LoggerFactory.getLogger(Driver.class);
 	private static CustomerService customerService = new CustomerService();
 	private static SavingAccountService savingService = new SavingAccountService();
 	private static CheckingAccountService checkingService = new CheckingAccountService();
@@ -69,6 +74,7 @@ public class CustomerController {
 				}
 				if(exit == false) {
 					System.out.println("Username does not exist. \n" + "Type 'y' to try again or 'n' to leave login");
+					log.warn("User enter an incorrect username or username does not exist.");
 					userName = scan.nextLine();
 					System.out.println(userName);
 					if(userName.equals("n")) {
@@ -87,12 +93,14 @@ public class CustomerController {
 					if(tempPswd.equals(password) && temp.equals(userName)) {
 						exitpswd = true;
 						leave = true;
+						log.info("User enter correct username and password login into customer sub menu.");
 						id = e.getCustomerID();
 					}
 							
 				}
 				if(exitpswd == false) {
 					System.out.println("Password does not match Username. \n" + "Type 'y' to try again or 'n' to leave login");
+					log.warn("User type incorrect password or password does not match this username? ");
 					password = scan.nextLine();
 					if(password.equals("n")) {
 						exitpswd = true;
@@ -101,7 +109,6 @@ public class CustomerController {
 				}
 			}
 		}
-		
 		return id;
 	}
 	// Done but maybe need to change later on 
@@ -124,7 +131,8 @@ public class CustomerController {
 				temp = e.getUserName();
 				if(temp.equals(userName)) {
 					notFound = true;
-					System.out.println("Username exist already try another Username.");}
+					System.out.println("Username exist already try another Username.");
+					log.warn("User enter an already existing username.");}
 			}
 			if(notFound == false) {exit = true;}
 			
@@ -140,6 +148,7 @@ public class CustomerController {
 				exit = true;
 			} else {
 				System.out.println("password did not match");
+				log.warn("User enter incorrect passowrd.");
 			}
 		}
 		
@@ -148,13 +157,16 @@ public class CustomerController {
 		Customer customer = new Customer(firstName,lastName,userName,password,address);
 		if(customerService.addCustome(customer)) {
 			System.out.println("You user account was being add.");
+			log.info("User Create an account.");
 		}else {
-			System.out.println("USer name is not valid, try again.");
+			System.out.println("User name is not valid, try again.");
+			log.warn("User enter the valid inputs.");
 		}
 		
 	}
 	// needs work
 	public void customerSubMenu(int id){
+		log.info("User enter customer sub menu.");
 		Customer customer = customerService.getCustomer(id);
 		boolean customerOptions = true;
 		
@@ -180,7 +192,8 @@ public class CustomerController {
 			}else if (input.equals("5")) {
 				if(customer.isHasChecking() && customer.isHasChecking()) {
 					transferSubMenu(id);
-				} else {System.out.println("You dont have access to this option right now.");}
+				} else {System.out.println("You dont have access to this option right now.");
+					log.info("User does not have an SA or CA or both.");}
 			}else if (input.equals("6")) {
 					showBalance(id);
 			} else if (input.equals("7")) {
@@ -208,6 +221,7 @@ public class CustomerController {
 		}
 		if(foundAccount == false) {
 			System.out.println("Saving Account Create waiting on Employee Approve.");
+			log.info("Created Saving account.");
 			customerService.addSavingAccount(id);
 		}else if(foundAccount == true && hasSaving == false) {
 			System.out.println("Waiting on Employee to Approve Account.");
@@ -232,6 +246,7 @@ public class CustomerController {
 		}
 		if(foundAccount == false) {
 			System.out.println("Checking Account Create waiting on Employee Approve.");
+			log.info("Create Checking Account.");
 			customerService.addCheckingAccount(id);
 		}else if(foundAccount == true && hasChecking == false) {
 			System.out.println("Waiting on Employee to Approve Account.");
@@ -302,6 +317,7 @@ public class CustomerController {
 					exit = true;
 					amount +=deposit;
 					System.out.println("New Balance of Saving Account: " + amount);
+					log.info("User deposited: " + deposit + " to their Saving Account new total:" + amount);
 					customerService.customerSavingAccount(id, amount);
 				}else if (deposit <= 0){
 					System.out.println("Cannot deposit 0 or negative number: type 'y' try again or type 'n' to leave deposit option.");
@@ -352,6 +368,7 @@ public class CustomerController {
 					exit = true;
 					amount +=deposit;
 					System.out.println("New Balance of Checking Account: " + amount);
+					log.info("User deposited: " + deposit + " to their Checking Account new total:" + amount);
 					customerService.customerCheckingAccount(id, amount);
 				}else if(deposit <= 0) {
 					System.out.println("Cannot deposit 0 or negative number: type 'y' try again or type 'n' to leave deposit option.");
