@@ -13,6 +13,19 @@ public interface EmployeeDAO {
 	
 	public Customer findCustomer(int id);
 	
+	public boolean showAccountBalance();
+	
+	public boolean showAccountInfo();
+	
+	public boolean showPersonalInfo();
+	
+	public boolean denyCheckingAccount(int id);
+	
+	public boolean denySavingAccount(int id);
+	
+	public boolean approveSavingAccount(int id);
+	
+	public boolean approveCheckingAccount(int id);
 	//public boolean updateCustomer(Customer customer);
 	
 	

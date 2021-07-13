@@ -38,6 +38,9 @@ public class CustomerService {
 		return customerDao.updateChecking(id, amount);
 	}
 	
+	public boolean showBalance(int id) {
+		return customerDao.showBalance(id);	
+	}
 	
 	
 	

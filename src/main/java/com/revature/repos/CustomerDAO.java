@@ -20,9 +20,9 @@ public interface CustomerDAO {
 	
 	public boolean updateChecking(int id, double amount);
 	
-	public void showBalance(int id);
+	public boolean showBalance(int id);
 	
-	public boolean transferMoney(int id);
+	//public boolean transferMoney(int id);
 	
 	
 	/*TODO LIST:
