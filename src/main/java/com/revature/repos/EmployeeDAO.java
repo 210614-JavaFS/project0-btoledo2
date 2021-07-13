@@ -26,6 +26,8 @@ public interface EmployeeDAO {
 	public boolean approveSavingAccount(int id);
 	
 	public boolean approveCheckingAccount(int id);
+	
+	public boolean removeUSer(int id);
 	//public boolean updateCustomer(Customer customer);
 	
 	

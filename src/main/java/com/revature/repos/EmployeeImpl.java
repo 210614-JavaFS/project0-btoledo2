@@ -284,6 +284,26 @@ public class EmployeeImpl implements EmployeeDAO {
 		return false;
 	}
 
+	// Testing
+	@Override
+	public boolean removeUSer(int id) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "DELETE FROM CUSTOMER \r\n"
+					+ "WHERE CUSTOMER_ID =?; ";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setDouble(1, id);
+			statement.execute();
+			
+			return true;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	
+		return false;
+	}
+
 
 
 }
