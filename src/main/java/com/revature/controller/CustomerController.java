@@ -442,6 +442,7 @@ public class CustomerController {
 					exit = true;
 					amount -= withdraw;
 					System.out.println("New Balance of Saving Account: " + amount);
+					log.info("User withdrawing: " + withdraw + " to their Saving Account new total:" + amount);
 					customerService.customerSavingAccount(id, amount);
 				}else if(withdraw <= 0 || withdraw > amount) {
 					System.out.println("Cannot withdraw more than your balance or "
@@ -492,6 +493,7 @@ public class CustomerController {
 					exit = true;
 					amount -=withdraw;
 					System.out.println("New Balance of Checking Account: " + amount);
+					log.info("User withdrawing: " + withdraw + " to their Checking Account new total:" + amount);
 					customerService.customerCheckingAccount(id, amount);
 				}else if (withdraw <= 0 || withdraw > amount){
 					System.out.println("Cannot withdraw more than your balance or "
@@ -569,6 +571,8 @@ public class CustomerController {
 					exit = true;
 					amountChecking +=withdraw;
 					amountSaving -= withdraw;
+					log.info("User deposited: " + withdraw + " to their Checking Account new total:" + amountChecking);
+					log.info("User withdrawing: " + withdraw + " to their Saving Account new total:" + amountSaving);
 					System.out.println("New Checking Account Balance: " + amountChecking);
 					System.out.println("New Saving Account Balance: " + amountSaving);
 					customerService.customerSavingAccount(id, amountSaving);
@@ -634,6 +638,8 @@ public class CustomerController {
 					amountSaving += withdraw;
 					System.out.println("New Checking Account Balance: " + amountChecking);
 					System.out.println("New Saving Account Balance: " + amountSaving);
+					log.info("User Withdrawing: " + withdraw + " to their Checking Account new total:" + amountChecking);
+					log.info("User deposited: " + withdraw + " to their Saving Account new total:" + amountSaving);
 					customerService.customerSavingAccount(id, amountSaving);
 					customerService.customerCheckingAccount(id, amountChecking);
 				}else if (withdraw <= 0 || withdraw > amountChecking){
