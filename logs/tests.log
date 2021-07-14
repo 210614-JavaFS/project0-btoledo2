@@ -1,0 +1,43 @@
+23:24:38.948 [] [main] WARN  com.revature.Driver - User enter an incorrect username or username does not exist.
+23:25:07.834 [] [main] WARN  com.revature.Driver - User type incorrect password or password does not match this username? 
+23:25:12.987 [] [main] INFO  com.revature.Driver - User enter correct username and password login into customer sub menu.
+23:25:12.987 [] [main] INFO  com.revature.Driver - User enter customer sub menu.
+23:25:42.866 [] [main] INFO  com.revature.Driver - User deposited: 200.0 to their Saving Account new total:700.0
+00:31:38.831 [] [main] INFO  com.revature.Driver - User enter correct username and password login into customer sub menu.
+00:31:38.834 [] [main] INFO  com.revature.Driver - User enter customer sub menu.
+00:33:16.319 [] [main] WARN  com.revature.Driver - User enter an incorrect username or username does not exist.
+00:33:26.710 [] [main] INFO  com.revature.Driver - User enter correct username and password login into customer sub menu.
+00:33:26.710 [] [main] INFO  com.revature.Driver - User enter customer sub menu.
+10:01:13.176 [] [main] INFO  com.revature.Driver - Admin enter customer sub menu.
+10:01:22.593 [] [main] INFO  com.revature.Driver - Created Saving account.
+10:01:31.892 [] [main] INFO  com.revature.Driver - Create Checking Account.
+10:02:25.077 [] [main] INFO  com.revature.Driver - Admin enter customer sub menu.
+10:02:38.903 [] [main] INFO  com.revature.Driver - User deposited: 150.0 to their Saving Account new total:150.0
+10:02:50.326 [] [main] INFO  com.revature.Driver - User deposited: 120.0 to their Checking Account new total:120.0
+13:26:20.290 [] [main] INFO  com.revature.Driver - Admin enter customer sub menu.
+14:46:40.756 [] [main] INFO  com.revature.Driver - Admin enter customer sub menu.
+14:46:45.837 [] [main] INFO  com.revature.Driver - Create Checking Account.
+14:47:10.211 [] [main] INFO  com.revature.Driver - User deposited: 1000.0 to their Checking Account new total:1000.0
+14:49:01.450 [] [main] INFO  com.revature.Driver - Admin enter customer sub menu.
+14:49:04.779 [] [main] INFO  com.revature.Driver - Create Checking Account.
+14:49:18.834 [] [main] INFO  com.revature.Driver - User deposited: 150.0 to their Checking Account new total:150.0
+14:49:30.745 [] [main] INFO  com.revature.Driver - Admin enter customer sub menu.
+14:49:39.983 [] [main] INFO  com.revature.Driver - Create Checking Account.
+14:49:50.105 [] [main] INFO  com.revature.Driver - User deposited: 160.0 to their Checking Account new total:160.0
+14:50:02.217 [] [main] INFO  com.revature.Driver - Admin enter customer sub menu.
+14:50:07.762 [] [main] INFO  com.revature.Driver - Create Checking Account.
+14:50:29.338 [] [main] INFO  com.revature.Driver - User deposited: 800.65 to their Checking Account new total:800.65
+19:52:28.366 [] [main] WARN  com.revature.Driver - User enter an already existing username.
+19:52:49.741 [] [main] WARN  com.revature.Driver - User enter incorrect passowrd.
+19:53:03.975 [] [main] INFO  com.revature.Driver - User Create an account.
+19:53:28.221 [] [main] WARN  com.revature.Driver - User type incorrect password or password does not match this username? 
+19:53:32.284 [] [main] INFO  com.revature.Driver - User enter correct username and password login into customer sub menu.
+19:53:32.284 [] [main] INFO  com.revature.Driver - User enter customer sub menu.
+19:53:42.876 [] [main] INFO  com.revature.Driver - User does not have an SA or CA or both.
+19:54:16.176 [] [main] INFO  com.revature.Driver - Created Saving account.
+19:54:26.148 [] [main] INFO  com.revature.Driver - Create Checking Account.
+19:54:42.844 [] [main] INFO  com.revature.Driver - User does not have an SA or CA or both.
+19:56:52.781 [] [main] WARN  com.revature.Driver - User enter an incorrect username or username does not exist.
+19:57:00.332 [] [main] INFO  com.revature.Driver - User enter correct username and password login into customer sub menu.
+19:57:00.332 [] [main] INFO  com.revature.Driver - User enter customer sub menu.
+19:57:44.245 [] [main] INFO  com.revature.Driver - User deposited: 250.99 to their Saving Account new total:250.99
