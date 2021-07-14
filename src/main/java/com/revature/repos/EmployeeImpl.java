@@ -87,7 +87,7 @@ public class EmployeeImpl implements EmployeeDAO {
 	@Override
 	public boolean showAccountBalance() {
 		try(Connection conn = ConnectionUtil.getConnection()){
-			String sql = "SELECT customer.first_name  , customer.last_name , saving_account.balance , checking_account.balance\r\n "
+			String sql = "SELECT customer.customer_id , customer.first_name  , customer.last_name , saving_account.balance , checking_account.balance\r\n "
 					+ "FROM customer LEFT JOIN saving_account ON saving_account.customer_id = customer.customer_id \r\n"
 					+ "LEFT JOIN checking_account ON checking_account.customer_id = customer.customer_id;";
 			
@@ -98,14 +98,16 @@ public class EmployeeImpl implements EmployeeDAO {
 			//ResultSets have a cursor similarly to Scanners or other I/O classes. 
 			//System.out.println("First Name - Last Name  - Saving Balance -  Checking Balance");
 			while(result.next()) {
-				show += "First Name: ";
-				show += result.getString(1);
-				show += " Last Name: ";
+				show += "Customer ID:  ";
+				show += result.getInt(1);
+				show += " First Name: ";
 				show += result.getString(2);
-				show += " Saving Account Balance: ";
+				show += " Last Name: ";
 				show += result.getString(3);
-				show += " Checking Account Balance: ";
+				show += " Saving Account Balance: ";
 				show += result.getString(4);
+				show += " Checking Account Balance: ";
+				show += result.getString(5);
 				System.out.println(show);
 				show = "";
 			}

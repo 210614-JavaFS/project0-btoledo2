@@ -242,8 +242,6 @@ public class EmployeeController {
 			foundAccount = false;
 		}
 	}
-
-	
 	
 	
 	public void adminSubMenu() {
@@ -260,13 +258,16 @@ public class EmployeeController {
 			if (input.equals("1")) {
 				employeeSubMenu();
 			} else if (input.equals("2")) {
+				employeeService.customerAccountStatus();
 				customerSubMenu();
 			} else if (input.equals("3")) {
-				//depositChecking(id);
+				employeeService.customerAccountStatus();
+				transferBetweenUserSAToSA();
 			} else if (input.equals("4")) {
+				employeeService.customerAccountStatus();
 				removeAccount();
 			}else if (input.equals("5")) {
-				System.out.println("Exiting Back.");
+				System.out.println("Exiting Admin Role.");
 				inBank = false;
 			} else {
 				System.out.println("Not a valid selection try again.");
@@ -275,7 +276,7 @@ public class EmployeeController {
 		}
 	}
 	
-	// Delete work in progress
+	// Done
 	public void removeAccount() {
 		List<Customer> customer = customerService.getAllCustomer();
 		boolean exit = false;
@@ -338,7 +339,7 @@ public class EmployeeController {
 							userID = true;
 							exit = true;
 							hasSaving = e.isHasSaving();
-							hasChecking = e.isHasSaving();
+							hasChecking = e.isHasChecking();
 							;}
 				}
 				if(userID == false) {
@@ -843,27 +844,116 @@ public class EmployeeController {
 	public void showBalance(int id) {
 		customerService.showBalance(id);		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// works
+	public void transferBetweenUserSAToSA() {
+		List<Customer> customer = customerService.getAllCustomer();
+		boolean exit = false;
+		int id = 0;
+		int id2 = 0;
+		int temp;
+		boolean userID = false;
+		boolean hasSaving = false;
+		boolean hasSavingTwo = false;
+		double balance =  0;
+		double balance2 = 0;
+		while(!exit) {
+			System.out.println("Enter Customer ID - This is the Sender");
+			String customerId = scan.nextLine();
+			try {		
+				id = Integer.parseInt(customerId);
+				for(Customer e :customer) {
+					temp = e.getCustomerID();
+					if(temp == id) {System.out.println("Customer ID is Valid.");
+							userID = true;
+							exit = true;
+							hasSaving = e.isHasSaving();}
+				}
+				if(userID == false) {
+					System.out.println("That is not a valid Customer ID: type 'y' try again or type 'n' to leave customer Menu.");
+					customerId = scan.nextLine();
+					if(customerId.equals("n")) {exit = true;}
+				}
+			}catch(Exception e) {
+				System.out.println("That is not a valid Customer ID: type 'y' try again or type 'n' to leave customer Menu.");
+				customerId = scan.nextLine();
+				if(customerId.equals("n")) {exit = true;}
+				continue;
+			}	
+			
+		}// end of while loop
+		if(userID == false ) {exit = true;}
+		if(hasSaving == false) {exit = true;}
+		else {exit = false;}
+		userID = false;
+		while(!exit) {
+			System.out.println("Enter Customer ID - This is the Reciever");
+			String customerId = scan.nextLine();
+			try {		
+				id2 = Integer.parseInt(customerId);
+				for(Customer e :customer) {
+					temp = e.getCustomerID();
+					if(temp == id2) {System.out.println("Customer ID is Valid.");
+						userID = true;
+						hasSavingTwo = e.isHasSaving();
+						exit = true;}
+				}
+				if(userID == false) {
+					System.out.println("That is not a valid Customer ID: type 'y' try again or type 'n' to leave customer Menu.");
+					customerId = scan.nextLine();
+					if(customerId.equals("n")) {exit = true;}
+				}
+			}catch(Exception e) {
+				System.out.println("That is not a valid Customer ID: type 'y' try again or type 'n' to leave customer Menu.");
+				customerId = scan.nextLine();
+				if(customerId.equals("n")) {exit = true;}
+				continue;
+			}				
+		}// end of while loop
+		if(hasSaving == true && hasSavingTwo == true) {
+			List<SavingAccount> savingAccounts = savingService.getAllSaving();
+			for(SavingAccount e: savingAccounts) {
+				temp = e.getCustomer().getCustomerID();
+				if(temp == id) {balance = e.getBalance();}
+				if(temp == id2) {balance2 = e.getBalance();}	
+			}
+			exit = false;
+			while(!exit) {
+				
+				System.out.println("How much do you wish to transfering to the other account?");
+				System.out.println("Current Sender Saving Account Balance: " + balance);
+				System.out.println("Current Reciever Saving Account Balance: " + balance2);
+				String withdrawStr = scan.nextLine();
+				double withdraw = 0;
+				try {
+					withdraw = Double.parseDouble(withdrawStr);							
+				//customerService.customerSavingAccount(id, deposit);
+				}
+				catch(Exception e) {
+					System.out.println("That is not a valid number: type 'y' try again or type 'n' to leave deposit option");
+					withdrawStr = scan.nextLine();
+					if(withdrawStr.equals("n")) {exit = true;}
+					continue;
+				}
+				if(withdraw > 0 && withdraw <= balance ) {
+					exit = true;
+					balance2 +=withdraw;
+					balance -= withdraw;
+					System.out.println("New Sender Saving Account Balance: " + balance);
+					System.out.println("New Reciever Saving Account Balance: " + balance2);
+					customerService.customerSavingAccount(id, balance);
+					customerService.customerSavingAccount(id2, balance2);
+				}else if (withdraw <= 0 || withdraw > balance){
+					System.out.println("Cannot transfer more than your balance or "
+							+ "negative numbers: type 'y' try again or type 'n' to leave transfer option.");
+					withdrawStr = scan.nextLine();
+					if(withdrawStr.equals("n")) {exit = true;}}
+			
+			}
+		}else {System.out.println("One or more Customers does not have Saving Account.");}
+	}
 	
 	
 	//TODO: need two menues one for regular and one for admin 
 	// both will have different selections
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
